@@ -5,7 +5,8 @@ import { TaskItem as TaskModel } from "../utils/handle-api";
 
 interface TaskListProps {
   tasks: TaskModel[];
-  onUpdateTask: (id: string, text: string) => void;
+  onUpdateTask: (task: TaskModel) => void;
+  onToggleComplete: (task: TaskModel) => void;
   onDeleteTask: (id: string) => void;
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
@@ -14,6 +15,7 @@ interface TaskListProps {
 const TaskList = ({
   tasks,
   onUpdateTask,
+  onToggleComplete,
   onDeleteTask,
   style,
   contentContainerStyle,
@@ -28,7 +30,10 @@ const TaskList = ({
         <TaskItem
           id={item._id}
           text={item.text}
-          onUpdateTask={onUpdateTask}
+          completed={!!item.completed}
+          dueDate={item.dueDate ?? null}
+          onUpdateTask={() => onUpdateTask(item)}
+          onToggleComplete={() => onToggleComplete(item)}
           onDeleteTask={onDeleteTask}
         />
       )}
